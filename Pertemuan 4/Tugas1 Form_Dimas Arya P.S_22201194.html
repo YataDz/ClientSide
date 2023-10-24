@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    table{
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 30px; 
+
+    }
+    </style>
+</head>
+<body>
+    <table>
+        <caption>Data Karyawan</caption>
+         <form>
+          <tr>
+             <td><label>NIK </label></td>
+             <td>:</td>
+             <td><input type="text" name = "nik"></td>
+          </tr>
+  
+          <tr>
+             <td><label>Nama Karyawan</label></td>
+             <td>:</td>
+             <td><input type="text" name = "nama kar"></td>
+          </tr>
+  
+          <tr>
+            <td><label>Tanggal Lahir </label></td>
+            <td>:</td>
+            <td><input type="date" name = "tgl" value = "2020-01-01"></td>
+         </tr>
+
+          <tr>
+              <td><label>Jabatan</label></td>
+              <td>:</td>
+              <td> <select>
+                <option></option>
+                <option>Direktur</option>
+                <option>Manajer</option>
+                <option>Kepala Devisi</option>
+                <option>Staff</option>
+                 </select>
+           </td>             
+           </tr>
+  
+  
+           <tr>
+              <td><label>Golongan Gaji</label></td>
+              <td>:</td>
+               <td> <select>
+                    <option></option>
+                    <option> Eselon 1</option>
+                    <option> Eselon 2</option>
+                    <option>Eselon 3</option>
+                     </select>
+               </td>
+           </tr>
+  
+           <tr>
+              <td><label>Status</label></td>
+              <td>:</td>
+              <td><input type="radio" name="Status">Menikah
+                <input type="radio"name="Status">Duda
+              </td>
+            </tr>
+
+            <tr>
+            <td></td>
+            <td></td>
+              <td><input type="radio" name="">Bujang
+                <input type="radio"name="jkel">Janda
+           </tr>
+  
+           <tr>
+            <td><label>Jenis Kelamin</label></td>
+            <td>:</td>
+            <td><input type="radio" name="jkel">Laki-Laki
+              <input type="radio"name="jkel">Perempuan
+            </td>
+          </tr>
+
+          <tr>
+            <td><label>Tanggungan</label></td>
+            <td>:</td>
+            <td><input type="radio" name="tanggung">1 Anak
+              <input type="radio"name="tanggung">2 Anak
+              <input type="radio"name="tanggung">Lebih dari 2 anak
+            </td>
+          </tr>
+
+          <tr>
+            <td><label>Keahlian</label></td>
+            <td>:</td>
+            <td><input type="checkbox" name="tanggung">Marketing
+              <input type="checkbox"name="tanggung">Akuntan
+            </td>
+
+          </tr>
+          <td></td>
+          <td></td>
+          <td><input type="checkbox" name="jkel">Progamming
+            <input type="checkbox"name="jkel">Support
+       </tr>
+
+  
+          <tr>
+              <td></td>
+              <td></td>
+          <td><input type="submit" name="tombol1" value="Submit">
+          <input type="submit" name="tombol2" value="Reset">
+
+         </form>
+         </tr>
+       </table>
+</body>
+</html>
