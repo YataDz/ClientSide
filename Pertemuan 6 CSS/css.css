@@ -1,0 +1,36 @@
+h1{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight:bolder ;
+    font-size: 50px;
+    font-variant: small-caps;
+    font-style: oblique;
+    line-height: 0%;
+    color: rgb(13, 97, 170);
+    text-align: center;
+    text-indent: 0%;
+    text-transform:uppercase;
+    word-spacing:100px;
+    text-decoration: line-through;
+
+    }
+    hr{
+ border-color: brown;
+ size: 0ch;
+    }
+    table{
+      padding: 20px;
+      border: 20px solid rgb(141, 27, 27);
+      border-radius: 30px; 
+  }
+
+  p{
+    color: brown;
+    font-size: 50px;
+    text-align: center;
+  }
+
+  body{
+  background-color: rgb(241, 184, 136);
+  background-image: url(hehe.gif);
+
+  }
