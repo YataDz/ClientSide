@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTS</title>
+    <link rel="stylesheet" href="UTS-Dimas Arya P.S.css">
+</head>
+
+<body>
+
+    <table>
+        <caption><b>Formulir Pendaftaran</b></caption>
+        <caption>by Dimas Arya</caption>
+
+        <form>
+            <tr>
+                <td><label>Nama Lengkap</label></td>
+                <td><input type="text" name="nama" required></td>
+            </tr>
+            <tr>
+                <td><label>Tempat Lahir</label></td>
+                <td><input type="text" name="tempatlahir" required></td>
+            </tr>
+            <tr>
+                <td><label>Tanggal Lahir</label></td>
+                <td><input type="date" name="tgl" value="2020-01-01" required></td>
+            </tr>
+            <tr>
+                <td><label>Jenis Kelamin</label></td>
+                <td>
+                    <select required>
+                        <option></option>
+                        <option value="Laki-Laki">Laki-Laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Alamat Lengkap</label></td>
+                <td><input type="text" name="alamat" required></td>
+            </tr>
+            <tr>
+                <td><label>Agama</label></td>
+                <td colspan="2">
+                    <select required>
+                        <option></option>
+                        <option value="Islam">Islam</option>
+                        <option value="Kristen">Kristen</option>
+                        <option value="Khatolik">Khatolik</option>
+                        <option value="Budha">Budha</option>
+                        <option value="Khonghucu">Khonghucu</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Email</label></td>
+                <td><input type="email" name="email" required></td>
+            </tr>
+            <tr>
+                <td><label>No.hp</label></td>
+                <td><input type="tel" name="nohp" pattern="[0-9]{10,12}" required></td>
+            </tr>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td colspan="2"><input type="submit" name="tombol1" value="Daftar"></td>
+            </tr>
+        </form>
+    </table>
+
+</body>
+
+</html>
