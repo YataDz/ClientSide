@@ -1,0 +1,16 @@
+img {
+    display: block;
+    margin: auto;
+    height: 80px;
+}
+
+
+
+div.relative {
+    height: fit-content;
+    width: fit-content;
+    padding: 20px;
+    margin: 20px;
+    border: 10px solid black;
+
+}
