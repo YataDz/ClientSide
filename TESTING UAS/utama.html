@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tempat Pariwisata di Malang</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-image: url(https://upload.wikimedia.org/wikipedia/commons/9/96/Tugu_Malang.jpg);
+      background-size: cover;
+      color: #fff;
+      text-align: center;
+      padding: 1em;
+      background-position: center;
+    }
+
+    .tour-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      overflow-y: auto;
+      max-height: 70vh;
+    }
+
+    .tour-item {
+      background-color: #fff;
+      margin: 10px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      transition: height 0.3s ease, transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .tour-image {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+    }
+
+    .tour-details {
+      padding: 20px;
+    }
+
+    .tour-title {
+      font-size: 1.2em;
+      margin: 0;
+    }
+
+    .tour-description {
+      margin-top: 1px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .tour-item.hovered {
+      max-height: 400px;
+      transform: scale(1.1);
+    }
+
+    .tour-item.hovered .tour-description {
+      max-height: 200px;
+    }
+    nav {
+      background-color: #333;
+      padding: 5px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #fff;
+      margin: 0 5px;
+      padding: 5px;
+      background-color: #555;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Tempat Pariwisata di Malang</h1>
+    <input type="text" id="searchInput" placeholder="Cari tempat pariwisata...">
+    <button id="searchButton">Cari</button>
+  </header>
+
+  <nav>
+    <a href="#" onclick="filterByCategory('Semua')">Semua</a>
+    <a href="#" onclick="filterByCategory('Taman Hiburan')">Taman Hiburan</a>
+    <a href="#" onclick="filterByCategory('Alam dan Pemandangan')">Alam dan Pemandangan</a>
+    <a href="#" onclick="filterByCategory('Museum dan Edukasi')">Museum dan Edukasi</a>
+    <a href="#" onclick="filterByCategory('Pusat Kota dan Kegiatan Sosial')">Pusat Kota dan Kegiatan Sosial</a>
+    <a href="#" onclick="filterByCategory('Kuliner')">Kuliner</a>
+  </nav>
+  
+
+  <ul class="tour-list" id="tourList"></ul>
+
+
+  <script>
+    // Simulasi data wisata dalam format JSON
+    const dataWisata = [
+      {
+        id: 1,
+        name: "Batu Flower Garden",
+        category: "Taman Hiburan",
+        image: "https://blog.bookingtogo.com/wp-content/uploads/2021/12/batu-flower-garden-malang.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata1.html"
+      },
+      {
+        id: 2,
+        name: "Florawisata San Terra de Lafonte",
+        image: "https://asset.kompas.com/crops/_E_jZ5BACnxCQ_2WVh_S5fkwZeA=/0x0:1000x667/750x500/data/photo/2020/01/22/5e281e5a7f0aa.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata2.html"
+      },
+      {
+        id: 3,
+        name: "Pantai Parang Dowo",
+        image: "https://asset.kompas.com/crops/hXAcD1RwhWUddXCWxd5sML7rvrk=/0x0:740x493/750x500/data/photo/2020/09/17/5f6337f72051c.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata3.html"
+      },
+      {
+        id: 4,
+        name: "Hill House",
+        image: "https://1.bp.blogspot.com/--z5-sFSYPp0/X4w7tB4bUkI/AAAAAAAADvI/IBW5JEDaKggPjhO4lt7mMvCMb_X5I1bdACLcBGAsYHQ/w536-h395/Harga%2BMenu%2Bdi%2BHill%2BHouse%2BBatu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 5,
+        name: "Alun-Alun Malang",
+        image: "https://dioramalang.com/wp-content/uploads/2020/10/1-3.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 6,
+        name: "Dino Mall",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 7,
+        name: "Malang Night Paradise",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 8,
+        name: "Taman Rekreasi Selecta",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 9,
+        name: "Museum Angkut",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 10,
+        name: "Jatim Park 1",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 11,
+        name: "Jatim Park 2",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 12,
+        name: "Jatim Park 3",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 13,
+        name: "Taman Langit Gunung Banyak",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 14,
+        name: "Paralayang Gunung Banyak",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 15,
+        name: "Air Terjun Coban Rondo",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 16,
+        name: "Pantai Bajulmati",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 17,
+        name: "Wisata Alam Brakseng",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 18,
+        name: "Taman Kunang-Kunang",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 19,
+        name: "Pantai Balekambang",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 20,
+        name: "Kebun Teh Wonosari",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 21,
+        name: "Pantai Ngantep",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 22,
+        name: "Bukit Teletubbies Batu",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 23,
+        name: "Mata Air Sumber Sirah",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 24,
+        name: "Pantai Batu Bengkung",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 25,
+        name: "Taman Slamet",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 26,
+        name: "Lembah Indah Malang",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 27,
+        name: "Coban Rais",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 28,
+        name: "Kampung Jodipan",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 29,
+        name: "Kampoeng Heritage Kajoetangan",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 30,
+        name: "Taman Trunojoyo",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 31,
+        name: "Hawai Waterpark",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 32,
+        name: "Bukit Nirwana",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 33,
+        name: "Batu Night Spectacular",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      {
+        id: 34,
+        name: "Bukit Delight",
+        image: "https://media.suara.com/pictures/970x544/2021/12/22/21286-dino-mall-kota-batu.jpg",
+        description: "Deskripsi singkat mengenai tempat pariwisata ini.",
+        link: "wisata4.html"
+      },
+      
+      // Tambahkan data wisata lainnya
+    ];
+
+   
+
+    function displayTourList(places) {
+      tourList.innerHTML = "";
+      places.forEach(place => {
+        const listItem = document.createElement("li");
+        listItem.className = "tour-item";
+
+        listItem.innerHTML = `
+          <img src="${place.image}" alt="${place.name}" class="tour-image">
+          <div class="tour-details">
+            <h2 class="tour-title">${place.name}</h2>
+            <p class="tour-description">${place.description}</p>
+          </div>
+        `;
+
+        listItem.addEventListener("click", () => {
+          redirectToDetailPage(place.link);
+        });
+
+        listItem.addEventListener("mouseenter", () => {
+          listItem.classList.add("hovered");
+        });
+
+        listItem.addEventListener("mouseleave", () => {
+          listItem.classList.remove("hovered");
+        });
+
+        tourList.appendChild(listItem);
+      });
+    }
+
+    function searchTour() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const filteredPlaces = dataWisata.filter(place => place.name.toLowerCase().includes(searchTerm));
+      displayTourList(filteredPlaces);
+    }
+
+    function redirectToDetailPage(link) {
+      window.location.href = link;
+    }
+    function filterByCategory(category) {
+    const filteredPlaces = category === 'Semua' ? dataWisata : dataWisata.filter(place => place.category === category);
+    displayTourList(filteredPlaces);
+}
+    // Display all places initially
+    displayTourList(dataWisata);
+
+  // Tambahkan event listener untuk tombol cari
+  const searchButton = document.getElementById("searchButton");
+    searchButton.addEventListener("click", searchTour);
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tempat Pariwisata di Malang</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-image: url(https://upload.wikimedia.org/wikipedia/commons/9/96/Tugu_Malang.jpg);
+      background-size: cover;
+      color: #fff;
+      text-align: center;
+      padding: 1em;
+      background-position: center;
+      position: relative; /* Tambahkan ini untuk elemen anak yang absolute */
+    }
+
+    header::after {
+      content: ""; /* Elemen tambahan untuk garis pembatas */
+      display: block;
+      width: 100%;
+      height: 10px;
+      background-color: #222f30; 
+      bottom: 100;
+      left: 0;
+    }
+
+    .tour-list {
+      list-style: none;
+      padding: 0;
+      margin: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      overflow-y: auto;
+      max-height: 70vh;
+    }
+
+    .tour-item {
+      background-color: #fff;
+      margin: 10px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      transition: height 0.3s ease, transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .tour-image {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+    }
+
+    .tour-details {
+      padding: 20px;
+    }
+
+    .tour-title {
+      font-size: 1.2em;
+      margin: 0;
+    }
+
+    .tour-description {
+      margin-top: 1px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .tour-item.hovered {
+      max-height: 400px;
+      transform: scale(1.1);
+    }
+
+    .tour-item.hovered .tour-description {
+      max-height: 200px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Tempat Pariwisata di Malang</h1>
+    <input type="text" id="searchInput" placeholder="Cari tempat pariwisata...">
+    <button id="searchButton">Cari</button>
+  </header>
+
+  <ul class="tour-list" id="tourList"></ul>
+
+  <script>
+    // Simulasi data wisata dalam format JSON
+    const dataWisata = [
+      // Data wisata
+    ];
+
+    function displayTourList(places) {
+      tourList.innerHTML = "";
+      places.forEach(place => {
+        const listItem = document.createElement("li");
+        listItem.className = "tour-item";
+
+        listItem.innerHTML = `
+          <img src="${place.image}" alt="${place.name}" class="tour-image">
+          <div class="tour-details">
+            <h2 class="tour-title">${place.name}</h2>
+            <p class="tour-description">${place.description}</p>
+          </div>
+        `;
+
+        listItem.addEventListener("click", () => {
+          redirectToDetailPage(place.link);
+        });
+
+        listItem.addEventListener("mouseenter", () => {
+          listItem.classList.add("hovered");
+        });
+
+        listItem.addEventListener("mouseleave", () => {
+          listItem.classList.remove("hovered");
+        });
+
+        tourList.appendChild(listItem);
+      });
+    }
+
+    function searchTour() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const filteredPlaces = dataWisata.filter(place => place.name.toLowerCase().includes(searchTerm));
+      displayTourList(filteredPlaces);
+    }
+
+    function redirectToDetailPage(link) {
+      window.location.href = link;
+    }
+
+    // Display all places initially
+    displayTourList(dataWisata);
+
+    // Tambahkan event listener untuk tombol cari
+    const searchButton = document.getElementById("searchButton");
+    searchButton.addEventListener("click", searchTour);
+  </script>
+
+</body>
+
+</html>
